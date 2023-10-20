@@ -10,7 +10,7 @@ def on_connect(client, userdata, flags, rc):
 
 def sendData():
     # Path to the image file
-    image_path = "../pics/apple.jpg"
+    image_path = "../../pics/apple.jpg"
 
     # Read the image file as binary data
     with open(image_path, "rb") as image_file:

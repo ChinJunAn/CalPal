@@ -15,7 +15,10 @@ def on_message(client, userdata, message):
 	# receive a tuple = (imageData, weight)
 	data = message.payload
 	struct_data = json.loads(data)
-	
+
+	# Save weight somewhere
+	weight = struct_data["weight"]
+
 	# Save image in a file
 	image_bytesio = BytesIO(base64.b64decode(struct_data["pic"]))
 	img = Image.open(image_bytesio)
@@ -24,10 +27,10 @@ def on_message(client, userdata, message):
 		os.remove('/Picture/test.jpg')
 	except OSError:
 		pass
-	img.save("Picture/test.jpg", "JPEG")
+	img_name = "Picture/"+str(weight)+".jpg"
+	img.save(img_name, "JPEG")
 
-	# Save weight somewhere
-	weight = struct_data["weight"]
+	
 
 def connectMQTT():
 	client = mqtt.Client()

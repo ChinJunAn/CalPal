@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
-from classifier import classify
-from mqtt import connectMQTT
+from Classifier import classifyItem, calculateCal
+from MQTT import connectMQTT
 import os
 import threading
 # Create the Flask object
@@ -28,7 +28,6 @@ def index():
 
     return render_template('index.html', info = {"title":"Hello World", "name":name}), 200
 
-
 @app.route('/classify')
 def identify():
     try:
@@ -44,8 +43,9 @@ def identify():
                     image_file = os.path.join(image_dir, file)
                     break
         if image_found:
-            item = classify(image_file)
-            return render_template('index.html', info = {"title":"Item: ", "name":item}), 200
+            item = classifyItem(image_file)
+            calories = calculateCal(image_file, item)
+            return render_template('index.html', info = {"title":"Item: ", "name":str(item)+" "+calories}), 200
         else:
             return render_template('index.html', info = {"title":"No item found", "name":" no item found"}), 200
         
