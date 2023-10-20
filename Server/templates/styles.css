@@ -1,0 +1,45 @@
+/* Apply the background colors to the top and bottom segments */
+.top-segment {
+    background-color: #DFE777;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.bottom-segment {
+    background-color: #FEFFE9;
+    height: 50%; /* Adjust the height as needed */
+}
+
+/* Add some basic styling for appearance */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* Additional styling for better visual separation */
+h1 {
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column; /* Display buttons vertically */
+    align-items: center; /* Center buttons horizontally within the top segment */
+    margin-top: 20px; /* Add some space between h1 and buttons */
+}
+
+.top-button {
+    background-color: #2E3105;
+    color: #FFFDC1;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+}
