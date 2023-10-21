@@ -13,3 +13,9 @@ calories_table = {"Apple":59,\
                     "Pepper":20,\
                     "Rambutan":70,\
                     "Tomato":20}
+
+image_dir = "Picture/"
+
+image_extensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".ico"]
+
+model = "model.pth"

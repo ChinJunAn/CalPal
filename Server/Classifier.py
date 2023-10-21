@@ -10,7 +10,7 @@ def classifyItem(image_path):
     class_mapping = Variables.class_mapppings
         
     # Load the entire model
-    model = torch.load("model.pth")
+    model = torch.load(Variables.model)
 
     # Load and preprocess the new image
     transform = transforms.Compose([
@@ -42,7 +42,26 @@ def classifyItem(image_path):
 def calculateCal(image_file, item):
     calorieTable = Variables.calories_table
     weight = image_file[8:-4]
-    return str((calorieTable[item]/100)*float(weight))
+    return str((calorieTable[item]/100)*float(weight)), str(weight)
+
+def caloriesInFunc(image_dir):
+     # check if image have been received and saved
+    files = os.listdir(image_dir)
+    image_found = False
+    image_file = ""
+    for file in files:
+        if os.path.isfile(os.path.join(image_dir, file)):
+            file_extension = os.path.splitext(file)[1].lower()  # Get the file extension in lowercase
+            if file_extension in Variables.image_extensions:
+                image_found = True
+                image_file = os.path.join(image_dir, file)
+                break
+    if image_found:
+        item = classifyItem(image_file)
+        calorieIn, weight = calculateCal(image_file, item)
+        return item, weight, calorieIn
+    else:
+        return None
 
 if __name__ == "__main__":
     image_path = sys.argv[1]
