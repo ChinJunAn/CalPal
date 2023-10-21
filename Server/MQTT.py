@@ -4,6 +4,7 @@ from io import BytesIO
 import os
 import base64
 import json
+import Variables
 
 def on_connect(client, userdata, flags, rc):
 	print("Connected with result code: " + str(rc))
@@ -15,19 +16,28 @@ def on_message(client, userdata, message):
 	# receive a tuple = (imageData, weight)
 	data = message.payload
 	struct_data = json.loads(data)
-	
-	# Save image in a file
-	image_bytesio = BytesIO(base64.b64decode(struct_data["pic"]))
-	img = Image.open(image_bytesio)
-	# Save the image as a JPEG file
-	try:
-		os.remove('/Picture/test.jpg')
-	except OSError:
-		pass
-	img.save("Picture/test.jpg", "JPEG")
 
 	# Save weight somewhere
 	weight = struct_data["weight"]
+
+	# Save image in a file
+	image_bytesio = BytesIO(base64.b64decode(struct_data["pic"]))
+	img = Image.open(image_bytesio)
+
+	# Save the image as a JPEG file
+	try:
+		files = os.listdir(Variables.image_dir)
+		for file in files:
+			file_path = os.path.join(Variables.image_dir, file)
+			try:
+				if os.path.isfile(file_path):
+					os.remove(file_path)
+			except Exception as e:
+				print(f"Error deleting file: {file_path} - {e}")
+	except OSError:
+		pass
+	img_name = Variables.image_dir+str(weight)+".jpg"
+	img.save(img_name, "JPEG")
 
 def connectMQTT():
 	client = mqtt.Client()

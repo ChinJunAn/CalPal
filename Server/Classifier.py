@@ -4,17 +4,13 @@ import os
 import torch
 from torchvision import transforms
 import sys
+import Variables
 
-def classify(image_path):
-    # map class names to class number
-    root_directory = '../pics/archive/fruits-360_dataset/fruits-360 augmented/dataset'
-    class_directories = sorted([d for d in os.listdir(root_directory) if os.path.isdir(os.path.join(root_directory, d))])
-    class_mapping = {}
-    for i, class_dir in enumerate(class_directories):
-        class_mapping[i] = class_dir
+def classifyItem(image_path):
+    class_mapping = Variables.class_mapppings
         
     # Load the entire model
-    model = torch.load("model.pth")
+    model = torch.load(Variables.model)
 
     # Load and preprocess the new image
     transform = transforms.Compose([
@@ -43,9 +39,33 @@ def classify(image_path):
     print(f'Predicted Class: {class_mapping[predicted_class.item()]}')
     return class_mapping[predicted_class.item()]
 
+def calculateCal(image_file, item):
+    calorieTable = Variables.calories_table
+    weight = image_file[8:-4]
+    return str((calorieTable[item]/100)*float(weight)), str(weight)
+
+def caloriesInFunc(image_dir):
+     # check if image have been received and saved
+    files = os.listdir(image_dir)
+    image_found = False
+    image_file = ""
+    for file in files:
+        if os.path.isfile(os.path.join(image_dir, file)):
+            file_extension = os.path.splitext(file)[1].lower()  # Get the file extension in lowercase
+            if file_extension in Variables.image_extensions:
+                image_found = True
+                image_file = os.path.join(image_dir, file)
+                break
+    if image_found:
+        item = classifyItem(image_file)
+        calorieIn, weight = calculateCal(image_file, item)
+        return item, weight, calorieIn
+    else:
+        return None
+
 if __name__ == "__main__":
     image_path = sys.argv[1]
-    classify(image_path)
+    classifyItem(image_path)
 
 
 
