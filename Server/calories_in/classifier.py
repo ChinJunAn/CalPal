@@ -4,13 +4,13 @@ import os
 import torch
 from torchvision import transforms
 import sys
-import Variables
+import server.calories_in.variables as variables
 
 def classifyItem(image_path):
-    class_mapping = Variables.class_mapppings
+    class_mapping = variables.class_mapppings
         
     # Load the entire model
-    model = torch.load(Variables.model)
+    model = torch.load(variables.model)
 
     # Load and preprocess the new image
     transform = transforms.Compose([
@@ -40,7 +40,7 @@ def classifyItem(image_path):
     return class_mapping[predicted_class.item()]
 
 def calculateCal(image_file, item):
-    calorieTable = Variables.calories_table
+    calorieTable = variables.calories_table
     weight = image_file[8:-4]
     return str((calorieTable[item]/100)*float(weight)), str(weight)
 
@@ -52,7 +52,7 @@ def caloriesInFunc(image_dir):
     for file in files:
         if os.path.isfile(os.path.join(image_dir, file)):
             file_extension = os.path.splitext(file)[1].lower()  # Get the file extension in lowercase
-            if file_extension in Variables.image_extensions:
+            if file_extension in variables.image_extensions:
                 image_found = True
                 image_file = os.path.join(image_dir, file)
                 break
