@@ -6,7 +6,7 @@ import server.calories_out.calories_out_variables as variables
 
 def classify_physical_activity():
     met_value = variables.met_values
-    # TODO: build model for to classify physical activity
+    # TODO: build model to classify physical activity type
 
 
 
