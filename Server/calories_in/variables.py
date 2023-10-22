@@ -14,8 +14,9 @@ calories_table = {"Apple":59,\
                     "Rambutan":70,\
                     "Tomato":20}
 
-image_dir = "Picture/"
+image_dir_from_webserver = "calories_in/picture/"
+image_dir_from_mqtt = "picture/"
 
 image_extensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".ico"]
 
-model = "model.pth"
+model = "calories_in/model.pth"

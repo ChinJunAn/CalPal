@@ -4,7 +4,7 @@ from io import BytesIO
 import os
 import base64
 import json
-import server.calories_in.variables as variables
+import calories_in.variables as variables
 
 def on_connect(client, userdata, flags, rc):
 	print("Connected with result code: " + str(rc))
@@ -26,9 +26,9 @@ def on_message(client, userdata, message):
 
 	# Save the image as a JPEG file
 	try:
-		files = os.listdir(variables.image_dir)
+		files = os.listdir(variables.image_dir_from_mqtt)
 		for file in files:
-			file_path = os.path.join(variables.image_dir, file)
+			file_path = os.path.join(variables.image_dir_from_mqtt, file)
 			try:
 				if os.path.isfile(file_path):
 					os.remove(file_path)
@@ -36,7 +36,7 @@ def on_message(client, userdata, message):
 				print(f"Error deleting file: {file_path} - {e}")
 	except OSError:
 		pass
-	img_name = variables.image_dir+str(weight)+".jpg"
+	img_name = variables.image_dir_from_mqtt+str(weight)+".jpg"
 	img.save(img_name, "JPEG")
 
 def connectMQTT():
