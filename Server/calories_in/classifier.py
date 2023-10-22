@@ -4,7 +4,7 @@ import os
 import torch
 from torchvision import transforms
 import sys
-import variables
+import server.calories_in.variables as variables
 
 def classifyItem(image_path):
     class_mapping = variables.class_mapppings

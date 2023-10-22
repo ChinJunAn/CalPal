@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template
-from classifier import caloriesInFunc
+from server.calories_in.classifier import caloriesInFunc
 from mqtt import connectMQTT
 import os
 import threading
-import variables
+import server.calories_in.variables as variables
 # Create the Flask object
 app = Flask(__name__, static_url_path='/static')
 

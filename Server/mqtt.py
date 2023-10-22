@@ -4,7 +4,7 @@ from io import BytesIO
 import os
 import base64
 import json
-import variables
+import server.calories_in.variables as variables
 
 def on_connect(client, userdata, flags, rc):
 	print("Connected with result code: " + str(rc))
