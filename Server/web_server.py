@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template
-from Classifier import caloriesInFunc
-from MQTT import connectMQTT
+from classifier import caloriesInFunc
+from mqtt import connectMQTT
 import os
 import threading
-import Variables
+import variables
 # Create the Flask object
 app = Flask(__name__, static_url_path='/static')
 
@@ -51,7 +51,7 @@ def root():
 @app.route('/Calories_In')
 def caloriesIn():
     try:    
-        results = caloriesInFunc(Variables.image_dir)
+        results = caloriesInFunc(variables.image_dir)
         if results is not None:
             global item, weight, calories_in, calories_in_flag
             item, weight, calories_in = results
