@@ -1,10 +1,9 @@
-#second test
 from PIL import Image
 import os
 import torch
 from torchvision import transforms
 import sys
-import server.calories_in.variables as variables
+import calories_in.variables as variables
 
 def classifyItem(image_path):
     class_mapping = variables.class_mapppings
@@ -41,8 +40,8 @@ def classifyItem(image_path):
 
 def calculateCal(image_file, item):
     calorieTable = variables.calories_table
-    weight = image_file[8:-4]
-    return str((calorieTable[item]/100)*float(weight)), str(weight)
+    weight = image_file[20:-4]
+    return str(round((calorieTable[item]/100)*float(weight), 2)), str(weight)
 
 def caloriesInFunc(image_dir):
      # check if image have been received and saved

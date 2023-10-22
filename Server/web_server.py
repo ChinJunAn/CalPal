@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template
-from server.calories_in.classifier import caloriesInFunc
-from server.calories_in.mqtt import connectMQTT
-import os
+from calories_in.classifier import caloriesInFunc
+from calories_in.mqtt import connectMQTT
 import threading
-import server.calories_in.variables as variables
+import calories_in.variables as variables
+import database_utility
 # Create the Flask object
 app = Flask(__name__, static_url_path='/static')
 
@@ -51,16 +51,20 @@ def root():
 @app.route('/Calories_In')
 def caloriesIn():
     try:    
-        results = caloriesInFunc(variables.image_dir)
+        results = caloriesInFunc(variables.image_dir_from_webserver)
         if results is not None:
             global item, weight, calories_in, calories_in_flag
             item, weight, calories_in = results
             calories_in_flag = True
         updateNetCalories()
         updateTemplateData(item, weight, calories_in, activity, duration, calories_out, net_calories)
+        #insert into db
+        database_utility.insertCaloriesIn(calories_in)
+        #update graph
+        database_utility.updateGraph()
         return render_template('index.html', info = template_data), 200
     except Exception as e:
-        return render_template('index.html', info = {"title":"No item found ", "name":e}), 200
+        return render_template('error.html', info = {"title":"No item found ", "name":e}), 200
 
 @app.route('/Calories_Out')
 def caloriesOut():
@@ -68,11 +72,13 @@ def caloriesOut():
         #activty, duration, calories_out = caloriesOutFunc()
         return render_template('index.html', info = template_data), 200
     except Exception as e:
-        return render_template('index.html', info = {"title":"No item found ", "name":e}), 200
+        return render_template('error.html', info = {"title":"No item found ", "name":e}), 200
 
 def main():
-    global client, db, col, app
+    #start db
+    database_utility.createDB()
     thread = threading.Thread(target=connectMQTT)
+    # thread to run mqtt client for calories out device
     thread.start()
     app.run(port = 3237)
 
