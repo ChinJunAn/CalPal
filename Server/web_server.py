@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 from server.calories_in.classifier import caloriesInFunc
-from mqtt import connectMQTT
+from server.calories_in.mqtt import connectMQTT
 import os
 import threading
 import server.calories_in.variables as variables
