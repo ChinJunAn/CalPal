@@ -66,6 +66,13 @@ def caloriesIn():
     except Exception as e:
         return render_template('error.html', info = {"title":"No item found ", "name":e}), 200
 
+@app.route('/Revert_Calories_In')
+def revertCaloriesIn():
+    database_utility.revertCaloriesIn()
+    #update graph
+    database_utility.updateGraph()
+    return render_template('index.html', info = template_data), 200
+
 @app.route('/Calories_Out')
 def caloriesOut():
     try:
@@ -73,6 +80,13 @@ def caloriesOut():
         return render_template('index.html', info = template_data), 200
     except Exception as e:
         return render_template('error.html', info = {"title":"No item found ", "name":e}), 200
+
+@app.route('/Revert_Calories_Out')
+def revertCaloriesOut():
+    database_utility.revertCaloriesOut()
+    #update graph
+    database_utility.updateGraph()
+    return render_template('index.html', info = template_data), 200
 
 def main():
     #start db

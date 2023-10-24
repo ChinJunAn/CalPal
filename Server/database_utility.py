@@ -27,16 +27,42 @@ def insertCaloriesIn(caloriesIn):
     conn.commit()
     conn.close()
 
+def revertCaloriesIn():
+    # Connect to the SQLite database
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    # Check if the table is not empty
+    cursor.execute("SELECT count(*) FROM CALORIESIN;")
+    count = cursor.fetchone()[0]
+    print(count)
+    if count > 0:
+        # Remove the latest entry from the table
+        cursor.execute("DELETE FROM CALORIESIN WHERE rowid = (SELECT max(rowid) FROM CALORIESIN);")
+    conn.commit()
+    conn.close()
+
 def insertCaloriesOut(caloriesOut):
     current_datetime = datetime.now()
     formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
-    
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()   
     cursor.execute("INSERT INTO CALORIESOUT (TIME, CALORIES) VALUES (?, ?)",(formatted_datetime, caloriesOut))
     conn.commit()
     conn.close()
-    
+
+def revertCaloriesOut():
+    # Connect to the SQLite database
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    # Check if the table is not empty
+    cursor.execute("SELECT count(*) FROM CALORIESOUT;")
+    count = cursor.fetchone()[0]
+    if count > 0:
+        # Remove the latest entry from the table
+        cursor.execute("DELETE FROM CALORIESOUT WHERE rowid = (SELECT max(rowid) FROM CALORIESOUT);")
+    conn.commit()
+    conn.close()
+
 def updateGraph():
     # Connect to the SQLite database
     conn = sqlite3.connect('database.db')
