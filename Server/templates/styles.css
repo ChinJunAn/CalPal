@@ -19,42 +19,118 @@ h1 {
     flex-direction: column;
     justify-content: center; /* Center items vertically in the top segment */
     align-items: center; /* Center items horizontally in the top segment */
-    min-height: 300px; /* Set a minimum height for the top-segment, adjust as needed */
+    min-height: 400px; /* Set a minimum height for the top-segment, adjust as needed */
 }
 
-.center-container {
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    grid-template-rows: repeat(2, 1fr); /* Two rows */
+    grid-gap: 10px; /* Gap between grid items */
+    margin-bottom: 20px;
+}
+
+.button-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center items vertically within the center container */
-    margin-bottom: 20px; /* Add some space between h1 and the center container */
-}
-
-.sub-container {
-    display: flex;
-    flex-direction: row; /* Display buttons vertically */
-    align-items: center; /* Center buttons horizontally within the button container */
-    margin: 10px;
+    align-items: center; /* Center vertically within the grid cell */
+    justify-content: top; /* Center horizontally within the grid cell */
 }
 
 .input-container {
     display: flex;
     flex-direction: column; /* Display buttons vertically */
     align-items: center; /* Center buttons horizontally within the button container */
-    margin: 10px;
+    width: 300px;
 }
 
 .in-data {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px;
+    width: 100%;
+}
+
+.half-label-container {
+    display:flex;
+    width: 100%;
+    justify-content: top;
+}
+
+
+.out-data {
+    display: flex;
     flex-direction: row; /* Display buttons vertically */
     align-items: center; /* Center buttons horizontally within the button container */
     margin: 10px;
+    width:100%;
 }
 
-.output {
-    display: inline-block; /* Make it an inline-block element */
-    min-width: 100px; /* Set a minimum width */
-    padding-right: 10px; /* Apply padding */
+.full-label-container {
+    width:100%;
 }
+
+.out-label {
+    background-color: #b4b69a;
+}
+
+.right-input-label {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.left-input-label {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.center-input-label {
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.in-label {
+    background-color: #B8BC7F; /* Background color (you can change it) */
+    color: #FFFFFF; /* Text color */
+    padding: 2px; /* Padding for spacing */
+    text-align: center; /* Center-align text */
+    font-family: 'Poppins', sans-serif;
+    word-wrap: break-word;
+}
+
+.out-label {
+    background-color: #b7b996; /* Background color (you can change it) */
+    color: #FFFFFF; /* Text color */
+    padding: 2px; /* Padding for spacing */
+    text-align: center; /* Center-align text */
+    font-family: 'Poppins', sans-serif;
+    word-wrap: break-word;
+
+}
+
+.output-label {
+    display: flex; /* Make it an inline-block element */
+    align-items: center;
+    width:100%;
+    justify-content: center;
+    word-wrap: break-word;
+    /*min-width: 100px; /* Set a minimum width */
+    /*padding: 10px; /* Apply padding */
+}
+
+.net-data{
+    display: flex;
+    flex-direction: column; /* Display buttons vertically */
+    margin-bottom: 20px;
+    width: 300px;
+}
+
+.half-label-container {
+    width: 100%;
+}
+
 
 .button {
     background-color: #2E3105;
@@ -64,17 +140,25 @@ h1 {
     border: none;
     border-radius: 50px;
     cursor: pointer;
+    min-width: 200px
 }
 
 hr {
-    width: 100%;
+    width: 50%;
     border: none;
     border-top: 1px solid #3a320f; /* Change the color as desired */
-    margin: 20px 0; /* Add some spacing above and below the line */
+    margin-bottom: 20px; /* Add some spacing above and below the line */
 }
-
 
 .bottom-segment {
     background-color: #FEFFE9;
     height: 50%; /* Adjust the height as needed */
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin-bottom: 20px;
+    
 }

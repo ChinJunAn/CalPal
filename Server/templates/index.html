@@ -7,63 +7,80 @@
 <body>
     <div class="top-segment">
         <h1>CalPal</h1>
-        <div class="center-container">
-            <div class="sub-container">
+        <div class="grid-container">
+            
+            <div class="button-container">
                 <form method="GET" action="./Calories_In">
                     <button class="button" type="submit">Calories-In</button>
                 </form>
-                <div class="input-container">
-                    <div class="in-data">
-                        <div class="label-container">
-                            <div class="input-label">Food</div>
-                            <div class="output">{{info.food}}</div>
-                            <!-- <input type="text" class="user-input" placeholder="Input 1" id="food"> -->
-                        </div>
-                        <div class="label-container">
-                            <div class="input-label">Weight</div>
-                            <div class="output">{{info.weight}}</div>
-                            <!-- <input type="text" class="user-input" placeholder="Input 1" id="weight"> -->
-                        </div>
+                <form method="GET" action="./Revert_Calories_In">
+                    <button class="revert-button" type="submit">Remove last entry</button>
+                </form>
+            </div>
+            
+            <div class="input-container">
+                <div class="in-data">
+                    <div class="half-label-container">
+                        <div class="left-input-label in-label">Food</div>
+                        <div class="output-label">{{info.food}}</div>
+                        <!-- <input type="text" class="user-input" placeholder="Input 1" id="food"> -->
                     </div>
-                    <div class="label-container">
-                        <div class="input-label">Calories-In</div>
-                        <div class="">{{info.caloriesIn}}</div>
+                    <div class="half-label-container">
+                        <div class="right-input-label in-label">Weight</div>
+                        <div class="output-label">{{info.weight}}</div>
+                        <!-- <input type="text" class="user-input" placeholder="Input 1" id="weight"> -->
+                    </div>
+                </div>
+                <div class="out-data">
+                    <div class="full-label-container">
+                        <div class="center-input-label out-label ">Calories-In</div>
+                        <div class="output-label">{{info.caloriesIn}}</div>
                         <!-- <input type="text" class="user-input" placeholder="Input 1" id="caloriesIn"> -->
                     </div>
                 </div>
             </div>
-            <div class="sub-container">
+
+            <div class="button-container">
                 <form method="GET" action="./Calories_Out">
                     <button class="button" type="submit">Calories-Out</button>
                 </form>
-                <div class="input-container">
-                    <div class="in-data">
-                        <div class="label-container">
-                            <div class="input-label">Activity</div>
-                            <div class="output">{{info.activity}}</div>
-                            <!-- <input type="text" class="user-input" placeholder="Input 1" id="food"> -->
-                        </div>
-                        <div class="label-container">
-                            <div class="input-label">Duration</div>
-                            <div class="output">{{info.duration}}</div>
-                            <!-- <input type="text" class="user-input" placeholder="Input 1" id="weight"> -->
-                        </div>
+                <form method="GET" action="./Revert_Calories_Out">
+                    <button class="revert-button" type="submit">Remove last entry</button>
+                </form>
+            </div>
+            
+            <div class="input-container">
+                <div class="in-data">
+                    <div class="half-label-container">
+                        <div class="left-input-label in-label">Activity</div>
+                        <div class="output-label">{{info.activity}}</div>
+                        <!-- <input type="text" class="user-input" placeholder="Input 1" id="food"> -->
                     </div>
-                    <div class="label-container">
-                        <div class="input-label">Calories-Out</div>
-                        <div class="">{{info.caloriesOut}}</div>
+                    <div class="half-label-container">
+                        <div class="right-input-label in-label">Duration</div>
+                        <div class="output-label">{{info.duration}}</div>
+                        <!-- <input type="text" class="user-input" placeholder="Input 1" id="weight"> -->
+                    </div>
+                </div>
+                <div class="out-data">
+                    <div class="full-label-container">
+                        <div class="center-input-label out-label">Calories-Out</div>
+                        <div class="output-label">{{info.caloriesOut}}</div>
                         <!-- <input type="text" class="user-input" placeholder="Input 1" id="caloriesIn"> -->
                     </div>
                 </div>
             </div>
-            <hr>
-            <div class="label-container">
-                <div class="input-label">Net Calories Gain/Loss</div>
-                <div class="">{{info.netCalories}}</div>
+        </div>
+        <hr>
+        <div class="net-data">
+            <div class="net-label-container">
+                <div class="center-input-label out-label">Net Calories Gain/Loss</div>
+                <div class="output-label">{{info.netCalories}}</div>
                 <!-- <input type="text" class="user-input" placeholder="Input 1" id="caloriesIn"> -->
             </div>
         </div>
     </div>
+
     <div class="bottom-segment">
         <div class="center-container">
             <h1>Your Calories Journey</h1>
