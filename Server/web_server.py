@@ -8,10 +8,10 @@ import database_utility
 app = Flask(__name__, static_url_path='/static')
 
 item = "Place food on smart plate"
-weight = ""
+weight = " "
 calories_in = "Then click on the \"Calories-In\" button"
 activity = "Go for a run with the activity tracker"
-duration = ""
+duration = " "
 calories_out = "Then click on the \"Calories-Out\" button"
 net_calories = "Get both Calories-In and Calories-Out first!!"
 
@@ -46,6 +46,8 @@ def updateNetCalories():
 
 @app.route('/')
 def root():
+    #update graph
+    database_utility.updateGraph()
     return render_template('index.html', info = template_data), 200
 
 @app.route('/Calories_In')

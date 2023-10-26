@@ -41,28 +41,37 @@ h1 {
     display: flex;
     flex-direction: column; /* Display buttons vertically */
     align-items: center; /* Center buttons horizontally within the button container */
+    width: 300px;
 }
 
 .in-data {
     display: flex;
-    flex-direction: row; /* Display buttons vertically */
-    align-items: center; /* Center buttons horizontally within the button container */
+    flex-direction: row;
     margin: 10px;
+    width: 100%;
 }
+
+.half-label-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 
 .out-data {
     display: flex;
     flex-direction: row; /* Display buttons vertically */
     align-items: center; /* Center buttons horizontally within the button container */
     margin: 10px;
+    width:100%;
 }
 
-.label {
-    background-color: #B8BC7F; /* Background color (you can change it) */
-    color: #FFFFFF; /* Text color */
-    padding: 2px; /* Padding for spacing */
-    text-align: center; /* Center-align text */
-    font-family: 'Poppins', sans-serif;
+.full-label-container {
+    width:100%;
+}
+
+.out-label {
+    background-color: #b4b69a;
 }
 
 .right-input-label {
@@ -81,11 +90,31 @@ h1 {
     padding-right: 10px;
 }
 
+.in-label {
+    background-color: #B8BC7F; /* Background color (you can change it) */
+    color: #FFFFFF; /* Text color */
+    padding: 2px; /* Padding for spacing */
+    text-align: center; /* Center-align text */
+    font-family: 'Poppins', sans-serif;
+    word-wrap: break-word;
+}
+
+.out-label {
+    background-color: #b7b996; /* Background color (you can change it) */
+    color: #FFFFFF; /* Text color */
+    padding: 2px; /* Padding for spacing */
+    text-align: center; /* Center-align text */
+    font-family: 'Poppins', sans-serif;
+    word-wrap: break-word;
+
+}
+
 .output-label {
     display: flex; /* Make it an inline-block element */
     align-items: center;
     width:100%;
     justify-content: center;
+    word-wrap: break-word;
     /*min-width: 100px; /* Set a minimum width */
     /*padding: 10px; /* Apply padding */
 }
@@ -94,7 +123,13 @@ h1 {
     display: flex;
     flex-direction: column; /* Display buttons vertically */
     margin-bottom: 20px;
+    width: 300px;
 }
+
+.half-label-container {
+    width: 100%;
+}
+
 
 .button {
     background-color: #2E3105;
@@ -113,7 +148,6 @@ hr {
     border-top: 1px solid #3a320f; /* Change the color as desired */
     margin-bottom: 20px; /* Add some spacing above and below the line */
 }
-
 
 .bottom-segment {
     background-color: #FEFFE9;
