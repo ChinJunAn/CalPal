@@ -151,7 +151,11 @@ hr {
 
 .bottom-segment {
     background-color: #FEFFE9;
-    height: 50%; /* Adjust the height as needed */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center items vertically in the top segment */
+    align-items: center; /* Center items horizontally in the top segment */
+    min-height: 400px; /* Set a minimum height for the top-segment, adjust as needed */
 }
 
 .center-container {
