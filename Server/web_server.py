@@ -61,7 +61,7 @@ def caloriesIn():
         updateNetCalories()
         updateTemplateData(item, weight, calories_in, activity, duration, calories_out, net_calories)
         #insert into db
-        database_utility.insertCaloriesIn(calories_in)
+        database_utility.insertCaloriesIn(calories_in, item)
         #update graph
         database_utility.updateGraph()
         return render_template('index.html', info = template_data), 200
