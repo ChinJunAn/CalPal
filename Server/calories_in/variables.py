@@ -15,7 +15,8 @@ calories_table = {"Apple":59,\
                     "Tomato":20}
 
 image_dir_from_webserver = "calories_in/picture/"
-image_dir_from_mqtt = "picture/"
+image_dir_from_mqtt = "calories_in/picture/"
+image_dir_from_static = "static/"
 
 image_extensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".ico"]
 

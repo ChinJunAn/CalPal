@@ -132,6 +132,11 @@ h1 {
 
 
 .button {
+    margin: 5px;
+    cursor: pointer;
+}
+
+.calorie-button {
     background-color: #2E3105;
     color: #FFFDC1;
     padding: 10px 20px;

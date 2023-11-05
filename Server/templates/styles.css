@@ -47,15 +47,14 @@ h1 {
 .in-data {
     display: flex;
     flex-direction: row;
-    align-items: center;
     margin: 10px;
     width: 100%;
 }
 
 .half-label-container {
-    display:flex;
     width: 100%;
-    justify-content: top;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -133,6 +132,11 @@ h1 {
 
 
 .button {
+    margin: 5px;
+    cursor: pointer;
+}
+
+.calorie-button {
     background-color: #2E3105;
     color: #FFFDC1;
     padding: 10px 20px;
@@ -152,7 +156,11 @@ hr {
 
 .bottom-segment {
     background-color: #FEFFE9;
-    height: 50%; /* Adjust the height as needed */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center items vertically in the top segment */
+    align-items: center; /* Center items horizontally in the top segment */
+    min-height: 400px; /* Set a minimum height for the top-segment, adjust as needed */
 }
 
 .center-container {
