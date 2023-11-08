@@ -6,3 +6,4 @@ met_values = {
 }
 
 model = "calories_out/model/calories_out_model"
+csv_file_path = "calories_out/model/output.csv"

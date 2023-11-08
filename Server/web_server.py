@@ -1,8 +1,10 @@
 from flask import Flask, request, render_template
 from calories_in.classifier import caloriesInFunc
-from calories_in.mqtt import connectMQTT
+from calories_in.mqtt import connectCIMQTT
+from calories_out.mqtt import connectCOMQTT
 import threading
-import calories_in.variables as variables
+import calories_in.variables as ciVariables
+import calories_out.variables as coVariables
 import database_utility
 # Create the Flask object
 app = Flask(__name__, static_url_path='/static')
@@ -53,7 +55,7 @@ def root():
 @app.route('/Calories_In')
 def caloriesIn():
     try:    
-        results = caloriesInFunc(variables.image_dir_from_webserver)
+        results = caloriesInFunc(ciVariables.image_dir_from_webserver)
         if results is not None:
             global item, weight, calories_in, calories_in_flag
             item, weight, calories_in = results
@@ -78,7 +80,7 @@ def revertCaloriesIn():
 @app.route('/Calories_Out')
 def caloriesOut():
     try:
-        #activty, duration, calories_out = caloriesOutFunc()
+        #activty, duration, calories_out = caloriesOutFunc() --> PLS DO THIS FUNCTION SOKHNA :))))
         return render_template('index.html', info = template_data), 200
     except Exception as e:
         return render_template('error.html', info = {"title":"No item found ", "name":e}), 200
@@ -93,8 +95,9 @@ def revertCaloriesOut():
 def main():
     #start db
     database_utility.createDB()
-    thread = threading.Thread(target=connectMQTT)
-    # thread to run mqtt client for calories out device
+    thread = threading.Thread(target=connectCIMQTT)
+    thread.start()
+    thread = threading.Thread(target=connectCOMQTT)
     thread.start()
     app.run(port = 3237)
 

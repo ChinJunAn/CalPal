@@ -37,12 +37,12 @@ def save_for_static(img):
 	img.save(img_name, "JPEG")
 
 def on_connect(client, userdata, flags, rc):
-	print("Connected with result code: " + str(rc))
+	print("MQTT for Calories-In connected: " + str(rc))
 	client.subscribe("esp/cam")
 
 def on_message(client, userdata, message):
 	ImageFile.LOAD_TRUNCATED_IMAGES = True
-	print("received something")
+	print("received something from Calories-In")
 
 	# receive a tuple = (imageData, weight)
 	data = message.payload
@@ -60,7 +60,7 @@ def on_message(client, userdata, message):
 	save_for_classify(img, weight)
 	save_for_static(img)
 
-def connectMQTT():
+def connectCIMQTT():
 	client = mqtt.Client()
 	client.on_connect = on_connect
 	client.on_message = on_message
