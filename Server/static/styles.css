@@ -115,6 +115,7 @@ h1 {
     width:100%;
     justify-content: center;
     word-wrap: break-word;
+    white-space: pre-line;
     /*min-width: 100px; /* Set a minimum width */
     /*padding: 10px; /* Apply padding */
 }

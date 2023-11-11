@@ -6,6 +6,7 @@ import threading
 import calories_in.variables as ciVariables
 import calories_out.variables as coVariables
 import database_utility
+import aggregate
 # Create the Flask object
 app = Flask(__name__, static_url_path='/static')
 
@@ -44,7 +45,7 @@ def updateNetCalories():
     global net_calories, calories_in_flag, calories_out_flag
     if calories_in_flag and calories_out_flag:
         global net_calories
-        net_calories = str(float(calories_in) - float(calories_out))
+        net_calories = aggregate.inform(float(calories_in) - float(calories_out))
 
 @app.route('/')
 def root():
@@ -80,7 +81,19 @@ def revertCaloriesIn():
 @app.route('/Calories_Out')
 def caloriesOut():
     try:
-        #activty, duration, calories_out = caloriesOutFunc() --> PLS DO THIS FUNCTION SOKHNA :))))
+        #results = caloriesOutFunc() --> PLS DO THIS FUNCTION SOKHNA :))))
+        # if results is not None:
+        #     global item, weight, calories_in, calories_in_flag
+        #     item, weight, calories_in = results
+        #     calories_in_flag = True
+
+        #test codes
+        global calories_out_flag, calories_out
+        calories_out = 20
+        calories_out_flag = True
+        updateNetCalories()
+        updateTemplateData(item, weight, calories_in, activity, duration, calories_out, net_calories)
+        
         return render_template('index.html', info = template_data), 200
     except Exception as e:
         return render_template('error.html', info = {"title":"No item found ", "name":e}), 200
