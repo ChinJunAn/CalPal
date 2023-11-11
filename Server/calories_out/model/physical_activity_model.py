@@ -6,11 +6,12 @@ import torch.nn.functional as F
 import torch.optim as optim
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
+import calories_out.model.variables as variables
 
 # Load data
-current_directory = os.getcwd()
-file_path = os.path.join(current_directory, 'server/calories_out/model/accelerometer_data.csv')
-data = pd.read_csv(file_path)
+# current_directory = os.getcwd()
+# file_path = os.path.join(current_directory, 'server/calories_out/model/accelerometer_data.csv')
+data = pd.read_csv(variables.accelerometer_data_path)
 
 # label data
 X = data[['x_gyro', 'y_gyro', 'z_gyro', 'x_accel', 'y_accel', 'z_accel']]

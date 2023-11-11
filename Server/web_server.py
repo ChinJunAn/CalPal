@@ -80,19 +80,24 @@ def revertCaloriesIn():
 @app.route('/Calories_Out')
 def caloriesOut():
     try:
-        #results = caloriesOutFunc() --> PLS DO THIS FUNCTION SOKHNA :))))
-        calculate_calories_burned(coVariables.real_time_accelerometer_data)
-        # if results is not None:
-        #     global item, weight, calories_in, calories_in_flag
-        #     item, weight, calories_in = results
-        #     calories_in_flag = True
+        results = calculate_calories_burned(coVariables.real_time_accelerometer_data)
+        if results is not None:
+            global item, weight, calories_in, calories_in_flag
+            item, weight, calories_in = results
+            calories_in_flag = True
 
         #test codes
-        global calories_out_flag, calories_out
-        calories_out = 20
-        calories_out_flag = True
+        # global calories_out_flag, calories_out
+        # calories_out = 20
+        # calories_out_flag = True
+
         updateNetCalories()
         updateTemplateData(item, weight, calories_in, activity, calories_out, net_calories)
+
+        # #insert into db
+        # database_utility.insertCaloriesIn(calories_in, item)
+        # #update graph
+        # database_utility.updateGraph()
 
         return render_template('index.html', info = template_data), 200
     except Exception as e:

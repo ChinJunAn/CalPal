@@ -1,19 +1,9 @@
 from collections import Counter
-import os
 import pandas as pd
-import numpy as np
 import torch
 import torch.nn.functional as F
-from physical_activity_model import CNNPhysicalActivityClassifier
-import variables
-
-curr_directory = os.path.dirname(os.path.realpath(__file__))
-server_directory = os.path.abspath(os.path.join(curr_directory, '..', '..'))
-csv_file_path = os.path.join(server_directory, 'calories_out', 'real_time_accelerometer_data.csv')
-data = pd.read_csv(csv_file_path)
-
-
-model = CNNPhysicalActivityClassifier()
+from calories_out.model.physical_activity_model import CNNPhysicalActivityClassifier #remmove this
+import calories_out.model.variables as variables
 
 def calculate_total_time_elapsed(data):
     timestamps_ms = data.iloc[:, 0]
@@ -21,14 +11,9 @@ def calculate_total_time_elapsed(data):
     total_time_minutes = total_time_ms / (1000 * 60)
     return total_time_minutes
 
-# assume user weight == 65 kg (average human weight)
-def calculate_calories_burned(accelerometer_data):
-    met = classify_physical_activity(accelerometer_data, model)
-    activity_duration = calculate_total_time_elapsed(accelerometer_data)
-    total_calories_burned = (((met * 3.5 * 65) / 200) * activity_duration)
-    return f'You have burned a total of {total_calories_burned} calories.'
-
-def classify_physical_activity(accelerometer_data, model):
+def classify_physical_activity(accelerometer_data): #
+    # load the model here
+    model = CNNPhysicalActivityClassifier()
     model.eval()
     input_data = []
 
@@ -56,4 +41,14 @@ def classify_physical_activity(accelerometer_data, model):
     met_value = variables.met_values.get(most_frequent_activity, 1.0)
     return met_value
 
-print(calculate_calories_burned(data))
+
+# assume user weight == 65 kg (average human weight)
+def calculate_calories_burned(path):
+    accelerometer_data = pd.read_csv(path)
+    met = classify_physical_activity(accelerometer_data)
+    activity_duration = calculate_total_time_elapsed(accelerometer_data)
+    total_calories_burned = (((met * 3.5 * 65) / 200) * activity_duration)
+    return total_calories_burned, activity_duration
+    #return f'You have burned a total of {total_calories_burned} calories.'
+
+# print(calculate_calories_burned(data))
