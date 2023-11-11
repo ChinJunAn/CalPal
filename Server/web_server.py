@@ -17,6 +17,7 @@ weight = " "
 calories_in = "Then click on the \"Calories-In\" button"
 activity = "Sit, walk, or run with the activity tracker"
 calories_out = "Then click on the \"Calories-Out\" button"
+duration = " "
 net_calories = "Get both Calories-In and Calories-Out first!!"
 
 template_data = {
@@ -25,9 +26,10 @@ template_data = {
     "caloriesIn": calories_in,
     "activity": activity,
     "caloriesOut": calories_out,
+    "duration": duration,
     "netCalories": net_calories
 }
-def updateTemplateData(item, weight, calories_in, activity, calories_out, net_calories):
+def updateTemplateData(item, weight, calories_in, activity, calories_out, duration, net_calories):
     global template_data
     template_data = {
         "food": item,
@@ -35,6 +37,7 @@ def updateTemplateData(item, weight, calories_in, activity, calories_out, net_ca
         "caloriesIn": calories_in,
         "activity": activity,
         "caloriesOut": calories_out,
+        "duration": duration,
         "netCalories": net_calories
     }
 
@@ -61,7 +64,7 @@ def caloriesIn():
             item, weight, calories_in = results
             calories_in_flag = True
         updateNetCalories()
-        updateTemplateData(item, weight, calories_in, activity, calories_out, net_calories)
+        updateTemplateData(item, weight, calories_in, activity, calories_out, duration, net_calories)
         #insert into db
         database_utility.insertCaloriesIn(calories_in, item)
         #update graph
@@ -80,19 +83,20 @@ def revertCaloriesIn():
 @app.route('/Calories_Out')
 def caloriesOut():
     try:
-        results = calculate_calories_burned(coVariables.real_time_accelerometer_data)
-        if results is not None:
-            global item, weight, calories_in, calories_in_flag
-            item, weight, calories_in = results
-            calories_in_flag = True
+        # results = calculate_calories_burned(coVariables.real_time_accelerometer_data)
+        # if results is not None:
+        #     global item, weight, calories_in, calories_in_flag
+        #     item, weight, calories_in = results
+        #     calories_in_flag = True
 
         #test codes
-        # global calories_out_flag, calories_out
-        # calories_out = 20
-        # calories_out_flag = True
+        global calories_out_flag, calories_out
+        calories_out = 400
+        duration = 100
+        calories_out_flag = True
 
         updateNetCalories()
-        updateTemplateData(item, weight, calories_in, activity, calories_out, net_calories)
+        updateTemplateData(item, weight, calories_in, activity, calories_out, duration, net_calories)
 
         # #insert into db
         # database_utility.insertCaloriesIn(calories_in, item)
