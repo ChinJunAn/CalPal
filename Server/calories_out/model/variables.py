@@ -5,5 +5,4 @@ met_values = {
     "running": 7.5
 }
 
-model = "calories_out/model/calories_out_model"
-csv_file_path = "calories_out/model/output.csv"
+real_time_accelerometer_data = "server/calories_out/real_time_accelerometer_data.csv"
