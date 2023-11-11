@@ -21,6 +21,8 @@ MPU6050 mpu;
 int16_t gx, gy, gz, ax, ay, az;
 String globalData = "";
 
+#define LED 2
+
 void IRAM_ATTR isr() {
   unsigned long currentTime = millis();
   if (currentTime - lastDebounceTime > debounceDelay) {
@@ -47,11 +49,13 @@ void connectMQTT() {
 
 int pubCount = 0;
 void sendData() {
+  digitalWrite(LED, HIGH);
   Serial.println("Button pressed, sending data...");
   mqttClient.publish(publishTopic, globalData, 0, false);
   delay(2000);
   mqttClient.setConnectionState(false);
   WiFi.disconnect();
+  digitalWrite(LED, LOW);
 }
 
 void setup() {
@@ -59,6 +63,8 @@ void setup() {
   //button
   pinMode(BUTTON, INPUT_PULLUP);
   attachInterrupt(BUTTON, isr, FALLING);
+  //led
+  pinMode(LED, OUTPUT);
   //imu
   Wire.begin();
   mpu.initialize();
