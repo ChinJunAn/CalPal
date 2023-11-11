@@ -4,16 +4,16 @@ from calories_in.mqtt import connectCIMQTT
 from calories_out.mqtt import connectCOMQTT
 import threading
 import calories_in.variables as ciVariables
-import calories_out.variables as coVariables
+import calories_out.model.variables as coVariables
 import database_utility
+from server.calories_out.model.classifier import calculate_calories_burned
 # Create the Flask object
 app = Flask(__name__, static_url_path='/static')
 
 item = "Place food on smart plate"
 weight = " "
 calories_in = "Then click on the \"Calories-In\" button"
-activity = "Go for a run with the activity tracker"
-duration = " "
+activity = "Sit, walk, or run with the activity tracker"
 calories_out = "Then click on the \"Calories-Out\" button"
 net_calories = "Get both Calories-In and Calories-Out first!!"
 
@@ -22,18 +22,16 @@ template_data = {
     "weight": weight,
     "caloriesIn": calories_in,
     "activity": activity,
-    "duration": duration,
     "caloriesOut": calories_out,
     "netCalories": net_calories
 }
-def updateTemplateData(item, weight, calories_in, activity, duration, calories_out, net_calories):
+def updateTemplateData(item, weight, calories_in, activity, calories_out, net_calories):
     global template_data
     template_data = {
         "food": item,
         "weight": weight,
         "caloriesIn": calories_in,
         "activity": activity,
-        "duration": duration,
         "caloriesOut": calories_out,
         "netCalories": net_calories
     }
@@ -61,7 +59,7 @@ def caloriesIn():
             item, weight, calories_in = results
             calories_in_flag = True
         updateNetCalories()
-        updateTemplateData(item, weight, calories_in, activity, duration, calories_out, net_calories)
+        updateTemplateData(item, weight, calories_in, activity, calories_out, net_calories)
         #insert into db
         database_utility.insertCaloriesIn(calories_in, item)
         #update graph
@@ -80,7 +78,7 @@ def revertCaloriesIn():
 @app.route('/Calories_Out')
 def caloriesOut():
     try:
-        #activty, duration, calories_out = caloriesOutFunc() --> PLS DO THIS FUNCTION SOKHNA :))))
+        calculate_calories_burned(coVariables.real_time_accelerometer_data)
         return render_template('index.html', info = template_data), 200
     except Exception as e:
         return render_template('error.html', info = {"title":"No item found ", "name":e}), 200
