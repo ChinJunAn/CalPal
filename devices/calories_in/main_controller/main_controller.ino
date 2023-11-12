@@ -25,6 +25,7 @@ void setup() {
 
 void loop() {
   if (pressed) {
+    Serial.println("Taking picture");
     digitalWrite(CAMERA_PIN,HIGH);
     delay(1000);
     digitalWrite(CAMERA_PIN,LOW);

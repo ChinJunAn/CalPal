@@ -3,7 +3,6 @@ from PIL import Image, ImageFile
 from io import BytesIO
 import os
 import base64
-import json
 import calories_in.variables as variables
 
 def save_for_classify(img, weight):
@@ -44,17 +43,11 @@ def on_message(client, userdata, message):
 	ImageFile.LOAD_TRUNCATED_IMAGES = True
 	print("received something from Calories-In")
 
-	# receive a tuple = (imageData, weight)
-	data = message.payload
-	#struct_data = json.loads(data)
-
-	# Save weight somewhere
-	#weight = struct_data["weight"]
-	weight = 500
+	data = str(message.payload.decode("utf-8"))
+	imageData, weight = data.split("\n")
 
 	# Save image in a file
-	#image_bytesio = BytesIO(base64.b64decode(struct_data["pic"]))
-	image_bytesio = BytesIO(base64.b64decode(data))
+	image_bytesio = BytesIO(base64.b64decode(imageData))
 	img = Image.open(image_bytesio)
 
 	save_for_classify(img, weight)

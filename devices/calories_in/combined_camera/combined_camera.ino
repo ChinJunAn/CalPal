@@ -10,6 +10,11 @@
 #include <FS.h>
 #include "ESP32MQTTClient.h"
 
+#include <HX711_ADC.h>
+#if defined(ESP8266)|| defined(ESP32) || defined(AVR)
+#include <EEPROM.h>
+#endif
+
 const char* ssid = "CJA";
 const char* password = "qwertyuiop";
 char *server = "mqtt://192.168.97.192:1883";
@@ -64,6 +69,14 @@ camera_config_t camera_config = {
   .fb_count = 2                   // Double buffer
 };
 
+//weigh pins:
+const int HX711_dout = 14; //mcu > HX711 dout pin
+const int HX711_sck = 15; //mcu > HX711 sck pin
+//HX711 constructor:
+HX711_ADC LoadCell(HX711_dout, HX711_sck);
+const int calVal_calVal_eepromAdress = 0;
+unsigned long t = 0;
+
 volatile bool takePic = false;
 void IRAM_ATTR isr() {
   takePic = !takePic;
@@ -71,13 +84,10 @@ void IRAM_ATTR isr() {
 
 void flashOn() {
   digitalWrite(FLASH, HIGH); 
-  // Set the FLASH pin to HIGH to turn on the LED flash
 }
 
-// Function to turn off the LED flash
 void flashOff() {
   digitalWrite(FLASH, LOW); 
-  // Set the FLASH pin to LOW to turn off the LED flash
 }
 
 void connectMQTT() {
@@ -103,11 +113,23 @@ String takePicture() {
   return base64_encode(fb->buf, fb->len);
 }
 
-/*
 String takeWeight() {
-
+  static boolean newDataReady = 0;
+  const int serialPrintInterval = 500;
+  float i = 0;
+  if (LoadCell.update()) newDataReady = true;
+  if (newDataReady) {
+    if (millis() > t + serialPrintInterval) {
+      i = LoadCell.getData();
+      Serial.println(i);
+      newDataReady = 0;
+      t = millis();
+    }
+    return String(i);
+  } else {
+    return "None";
+  }
 }
-*/
 
 String compileData(String picData, String weightData) {
   return picData + "\n" + weightData;
@@ -115,7 +137,7 @@ String compileData(String picData, String weightData) {
 
 void sendData() {
   String picData = takePicture();
-  String weightData = "500";
+  String weightData = takeWeight();
 
   Serial.println("sending data");
   mqttClient.publish(publishTopic, compileData(picData, weightData), 0, false);
@@ -127,13 +149,24 @@ void sendData() {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200); delay(10);
+  //general pins
   pinMode(FLASH, OUTPUT);
   pinMode(CAMERA_PIN, INPUT);
   attachInterrupt(CAMERA_PIN, isr, RISING);
-
+  //camera
   esp_camera_init(&camera_config); 
-
+  //weigh sensor
+  float calibrationValue; // calibration value
+  calibrationValue = 696.0; // uncomment this if you want to set this value in the sketch
+  LoadCell.begin();
+  unsigned long stabilizingtime = 2000; // tare preciscion can be improved by adding a few seconds of stabilizing time
+  boolean _tare = true; //set this to false if you don't want tare to be performed in the next step
+  LoadCell.start(stabilizingtime, _tare);
+  LoadCell.setCalFactor(calibrationValue); // set calibration factor (float)
+  Serial.println("Startup is complete");
+  while (!LoadCell.update());
+  //network
   log_i();
   log_i("setup, ESP.getSdkVersion(): ");
   log_i("%s", ESP.getSdkVersion());
@@ -142,12 +175,13 @@ void setup() {
   mqttClient.enableLastWillMessage("lwt", "I am going offline");
   mqttClient.setKeepAlive(30);
   mqttClient.disableAutoReconnect();
-
+  //clean camera
   camera_fb_t* fb = esp_camera_fb_get();
   esp_camera_return_all();
 }
 
 void loop() {
+  takeWeight();
   if (takePic) {
     connectMQTT();
     delay(1000);
