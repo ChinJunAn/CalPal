@@ -41,13 +41,17 @@ def updateTemplateData(item, weight, calories_in, activity, calories_out, durati
         "netCalories": net_calories
     }
 
-calories_in_flag = False
-calories_out_flag = False
 def updateNetCalories():
-    global net_calories, calories_in_flag, calories_out_flag
-    if calories_in_flag and calories_out_flag:
+    global net_calories
+    print(database_utility.checkAggregate())
+    if database_utility.checkAggregate():
         global net_calories
-        net_calories = aggregate.inform(float(calories_in) - float(calories_out))
+        calories_in_fromdb = database_utility.getTotalCaloriesIn()
+        calories_out_fromdb = database_utility.getTotalCaloriesOut()
+        print(calories_in_fromdb, calories_out_fromdb)
+        net_calories = aggregate.inform(calories_in_fromdb - calories_out_fromdb)
+    else:
+        net_calories = "Get both Calories-In and Calories-Out first!!"
 
 @app.route('/')
 def root():
@@ -60,15 +64,14 @@ def caloriesIn():
     try:    
         results = caloriesInFunc(ciVariables.image_dir_from_webserver)
         if results is not None:
-            global item, weight, calories_in, calories_in_flag
+            global item, weight, calories_in
             item, weight, calories_in = results
-            calories_in_flag = True
+        # insert into db
+        database_utility.insertCaloriesIn(calories_in, item)
+        # update graph
+        database_utility.updateGraph()
         updateNetCalories()
         updateTemplateData(item, weight, calories_in, activity, calories_out, duration, net_calories)
-        #insert into db
-        database_utility.insertCaloriesIn(calories_in, item)
-        #update graph
-        database_utility.updateGraph()
         return render_template('index.html', info = template_data), 200
     except Exception as e:
         return render_template('error.html', info = {"title":"No item found ", "name":e}), 200
@@ -76,8 +79,9 @@ def caloriesIn():
 @app.route('/Revert_Calories_In')
 def revertCaloriesIn():
     database_utility.revertCaloriesIn()
-    #update graph
     database_utility.updateGraph()
+    updateNetCalories()
+    updateTemplateData(item, weight, calories_in, activity, calories_out, duration, net_calories)
     return render_template('index.html', info = template_data), 200
 
 @app.route('/Calories_Out')
@@ -85,24 +89,19 @@ def caloriesOut():
     try:
         # results = calculate_calories_burned(coVariables.real_time_accelerometer_data)
         # if results is not None:
-        #     global item, weight, calories_in, calories_in_flag
-        #     item, weight, calories_in = results
-        #     calories_in_flag = True
+        #     global activity, duration, calories_out
+        #     activity, duration, calories_out = results
 
         #test codes
-        global calories_out_flag, calories_out
+        global calories_out, duration, activity
         calories_out = 400
         duration = 100
-        calories_out_flag = True
+        activity = "running"
 
+        database_utility.insertCaloriesOut(calories_out, activity)
+        database_utility.updateGraph()
         updateNetCalories()
         updateTemplateData(item, weight, calories_in, activity, calories_out, duration, net_calories)
-
-        # #insert into db
-        # database_utility.insertCaloriesIn(calories_in, item)
-        # #update graph
-        # database_utility.updateGraph()
-
         return render_template('index.html', info = template_data), 200
     except Exception as e:
         return render_template('error.html', info = {"title":"No item found ", "name":e}), 200
@@ -110,8 +109,8 @@ def caloriesOut():
 @app.route('/Revert_Calories_Out')
 def revertCaloriesOut():
     database_utility.revertCaloriesOut()
-    #update graph
     database_utility.updateGraph()
+    updateNetCalories()
     return render_template('index.html', info = template_data), 200
 
 def main():
