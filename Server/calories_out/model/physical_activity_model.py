@@ -72,13 +72,17 @@ criterion = nn.CrossEntropyLoss()
 #         loss.backward()
 #         optimizer.step()
 
-#     if (epoch + 1) % 20 == 0:
+#     if (epoch + 1) % 10 == 0:
 #         print(f'Epoch [{epoch + 1}/{num_epochs}], Loss: {loss.item():.4f}')
 
 
-# with torch.no_grad():
-#     model.eval()
-#     outputs = model(X_test)
-#     _, predicted = torch.max(outputs, 1)
-#     accuracy = (predicted == y_test).sum().item() / len(y_test)
-#     print(f'Test Accuracy on test data: {accuracy:.4f}')
+model.eval()
+with torch.no_grad():
+    outputs = model(X_test)
+    _, predicted = torch.max(outputs, 1)
+    accuracy = (predicted == y_test).sum().item() / len(y_test)
+
+# print(f'Test Accuracy on test data: {accuracy:.4f}')
+save_path = '/Users/sokhna/Downloads/CalPal/server/calories_out/model/physical-activity-model.pth'
+torch.save(model, save_path)
+

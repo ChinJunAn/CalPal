@@ -5,7 +5,4 @@ met_values = {
     "running": 7.5
 }
 
-real_time_accelerometer_data_path = "calories_out/data/real_time_accelerometer_data.csv"
-accelerometer_data_path = "calories_out/model/accelerometer_data.csv"
-#insert the path to the model here
-# model_path = "caloreis_out/model/model.pth"
+model = '/Users/sokhna/Downloads/CalPal/server/calories_out/model/physical-activity-model.pth'

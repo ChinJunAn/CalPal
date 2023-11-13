@@ -1,9 +1,16 @@
 from collections import Counter
+import os
 import pandas as pd
 import torch
 import torch.nn.functional as F
-from calories_out.model.physical_activity_model import CNNPhysicalActivityClassifier #remmove this
-import calories_out.model.variables as variables
+from physical_activity_model import CNNPhysicalActivityClassifier
+import variables
+
+curr_directory = os.path.dirname(os.path.realpath(__file__))
+server_directory = os.path.abspath(os.path.join(curr_directory, '..', '..'))
+csv_file_path = os.path.join(server_directory, 'calories_out', 'real_time_accelerometer_data.csv')
+data = pd.read_csv(csv_file_path)
+
 
 def calculate_total_time_elapsed(data):
     timestamps_ms = data.iloc[:, 0]
@@ -11,9 +18,9 @@ def calculate_total_time_elapsed(data):
     total_time_minutes = total_time_ms / (1000 * 60)
     return total_time_minutes
 
-def classify_physical_activity(accelerometer_data): #
-    # load the model here
-    model = CNNPhysicalActivityClassifier()
+
+def classify_physical_activity(accelerometer_data):
+    model = torch.load(variables.model)
     model.eval()
     input_data = []
 
