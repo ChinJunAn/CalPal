@@ -14,7 +14,7 @@ const char* ssid = "CJA";
 const char* password = "qwertyuiop";
 char *server = "mqtt://192.168.97.192:1883";
 char *subscribeTopic = "foo";
-char *publishTopic = "esp/cam";
+char *publishTopic = "ci/cam";
 ESP32MQTTClient mqttClient; 
 
 // OV2640 camera module pins (CAMERA_MODEL_AI_THINKER)
@@ -71,13 +71,10 @@ void IRAM_ATTR isr() {
 
 void flashOn() {
   digitalWrite(FLASH, HIGH); 
-  // Set the FLASH pin to HIGH to turn on the LED flash
 }
 
-// Function to turn off the LED flash
 void flashOff() {
   digitalWrite(FLASH, LOW); 
-  // Set the FLASH pin to LOW to turn off the LED flash
 }
 
 void connectMQTT() {
@@ -103,22 +100,9 @@ String takePicture() {
   return base64_encode(fb->buf, fb->len);
 }
 
-/*
-String takeWeight() {
-
-}
-*/
-
-String compileData(String picData, String weightData) {
-  return picData + "\n" + weightData;
-}
-
 void sendData() {
-  String picData = takePicture();
-  String weightData = "500";
-
   Serial.println("sending data");
-  mqttClient.publish(publishTopic, compileData(picData, weightData), 0, false);
+  mqttClient.publish(publishTopic, takePicture(), 0, false);
   Serial.println("data sent");
   delay(2000);
   esp_camera_return_all();

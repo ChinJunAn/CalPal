@@ -37,21 +37,27 @@ def save_for_static(img):
 
 def on_connect(client, userdata, flags, rc):
 	print("MQTT for Calories-In connected: " + str(rc))
-	client.subscribe("esp/cam")
+	client.subscribe("ci/#")
 
+weight = ""
 def on_message(client, userdata, message):
-	ImageFile.LOAD_TRUNCATED_IMAGES = True
-	print("received something from Calories-In")
+	global weight
 
-	data = str(message.payload.decode("utf-8"))
-	imageData, weight = data.split("\n")
+	if message.topic == "ci/weight":
+		print("received weight from Calories-In")
+		weight = str(message.payload.decode("utf-8"))
+		print(weight)
 
-	# Save image in a file
-	image_bytesio = BytesIO(base64.b64decode(imageData))
-	img = Image.open(image_bytesio)
-
-	save_for_classify(img, weight)
-	save_for_static(img)
+	if message.topic == "ci/cam":
+		print("received picture from Calories-In")
+		ImageFile.LOAD_TRUNCATED_IMAGES = True
+		imageData = str(message.payload.decode("utf-8"))
+		# Save image in a file
+		image_bytesio = BytesIO(base64.b64decode(imageData))
+		img = Image.open(image_bytesio)
+		
+		save_for_classify(img, weight)
+		save_for_static(img)
 
 def connectCIMQTT():
 	client = mqtt.Client()
