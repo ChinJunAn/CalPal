@@ -1,0 +1,173 @@
+/* Add some basic styling for appearance */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Additional styling for better visual separation */
+h1 {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Apply the background colors to the top and bottom segments */
+.top-segment {
+    background-color: #DFE777;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center items vertically in the top segment */
+    align-items: center; /* Center items horizontally in the top segment */
+    min-height: 400px; /* Set a minimum height for the top-segment, adjust as needed */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    grid-template-rows: repeat(2, 1fr); /* Two rows */
+    grid-gap: 10px; /* Gap between grid items */
+    margin-bottom: 20px;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center vertically within the grid cell */
+    justify-content: top; /* Center horizontally within the grid cell */
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column; /* Display buttons vertically */
+    align-items: center; /* Center buttons horizontally within the button container */
+    width: 300px;
+}
+
+.in-data {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    width: 100%;
+}
+
+.half-label-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.out-data {
+    display: flex;
+    flex-direction: row; /* Display buttons vertically */
+    align-items: center; /* Center buttons horizontally within the button container */
+    margin: 10px;
+    width:100%;
+}
+
+.full-label-container {
+    width:100%;
+}
+
+.out-label {
+    background-color: #b4b69a;
+}
+
+.right-input-label {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.left-input-label {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.center-input-label {
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.in-label {
+    background-color: #B8BC7F; /* Background color (you can change it) */
+    color: #FFFFFF; /* Text color */
+    padding: 2px; /* Padding for spacing */
+    text-align: center; /* Center-align text */
+    font-family: 'Poppins', sans-serif;
+    word-wrap: break-word;
+}
+
+.out-label {
+    background-color: #b7b996; /* Background color (you can change it) */
+    color: #FFFFFF; /* Text color */
+    padding: 2px; /* Padding for spacing */
+    text-align: center; /* Center-align text */
+    font-family: 'Poppins', sans-serif;
+    word-wrap: break-word;
+
+}
+
+.output-label {
+    display: flex; /* Make it an inline-block element */
+    align-items: center;
+    width:100%;
+    justify-content: center;
+    word-wrap: break-word;
+    white-space: pre-line;
+    /*min-width: 100px; /* Set a minimum width */
+    /*padding: 10px; /* Apply padding */
+}
+
+.net-data{
+    display: flex;
+    flex-direction: column; /* Display buttons vertically */
+    margin-bottom: 20px;
+    width: 300px;
+}
+
+.half-label-container {
+    width: 100%;
+}
+
+
+.button {
+    margin: 5px;
+    cursor: pointer;
+}
+
+.calorie-button {
+    background-color: #2E3105;
+    color: #FFFDC1;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    min-width: 200px
+}
+
+hr {
+    width: 50%;
+    border: none;
+    border-top: 1px solid #3a320f; /* Change the color as desired */
+    margin-bottom: 20px; /* Add some spacing above and below the line */
+}
+
+.bottom-segment {
+    background-color: #FEFFE9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center items vertically in the top segment */
+    align-items: center; /* Center items horizontally in the top segment */
+    min-height: 400px; /* Set a minimum height for the top-segment, adjust as needed */
+}
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin-bottom: 20px;
+    
+}
