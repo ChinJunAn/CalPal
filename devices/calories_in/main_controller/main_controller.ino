@@ -73,7 +73,7 @@ void setup() {
     Serial.println("Timeout, check MCU>HX711 wiring and pin designations");
   }
   else {
-    LoadCell.setCalFactor(402.14); // set calibration factor (float)
+    LoadCell.setCalFactor(-401.49); // set calibration factor (float)
     Serial.println("Startup is complete");
   }
   while (!LoadCell.update());

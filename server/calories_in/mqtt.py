@@ -45,7 +45,7 @@ def on_message(client, userdata, message):
 
 	if message.topic == "ci/weight":
 		print("received weight from Calories-In")
-		weight = str(message.payload.decode("utf-8"))
+		weight = str(abs(float(message.payload.decode("utf-8"))))
 		print(weight)
 
 	if message.topic == "ci/cam":
@@ -54,10 +54,13 @@ def on_message(client, userdata, message):
 		imageData = str(message.payload.decode("utf-8"))
 		# Save image in a file
 		image_bytesio = BytesIO(base64.b64decode(imageData))
-		img = Image.open(image_bytesio)
-		
-		save_for_classify(img, weight)
-		save_for_static(img)
+		try:
+			img = Image.open(image_bytesio)
+			save_for_classify(img, weight)
+			save_for_static(img)
+		except Exception:
+			print("Image received with error")
+			pass
 
 def connectCIMQTT():
 	client = mqtt.Client()

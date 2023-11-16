@@ -33,7 +33,7 @@ void IRAM_ATTR isr() {
 
 void recordData() {
   mpu.getMotion6(&gx, &gy, &gz, &ax, &ay, &az);
-  String data = String(millis()) + "," + String(gx) + "," + String(gy) + "," + String(gz) + "," + String(ax) + "," + String(ay) + "," + String(az);
+  String data = String(millis()) + "," + String(ax) + "," + String(ay) + "," + String(az);
   globalData += data + "\n";
 }
 

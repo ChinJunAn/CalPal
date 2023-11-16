@@ -6,7 +6,7 @@ from calories_out.mqtt import connectCOMQTT
 import threading
 import calories_in.variables as ciVariables
 import calories_out.variables as coVariables
-from calories_out.variables import CNNPhysicalActivityClassifier
+# from calories_out.variables import CNNPhysicalActivityClassifier
 import database_utility
 import aggregate
 
@@ -50,7 +50,7 @@ def updateNetCalories():
         calories_in_fromdb = database_utility.getTotalCaloriesIn()
         calories_out_fromdb = database_utility.getTotalCaloriesOut()
         print(calories_in_fromdb, calories_out_fromdb)
-        net_calories = aggregate.inform(calories_in_fromdb - calories_out_fromdb)
+        net_calories = aggregate.inform(round(calories_in_fromdb - calories_out_fromdb,2))
     else:
         net_calories = "Get both Calories-In and Calories-Out first!!"
 
